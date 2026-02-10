@@ -1,0 +1,22 @@
+---
+- name: Adding Ansible user
+  ansible.builtin.user:
+    name: ansible
+    shell: /bin/bash
+    groups: sudo
+    append: yes
+    password: "$6$rounds=656000$XuOCXwfIGeFZUvh7$cC05Mm3pNOlgs6rzdVwFMl6XGsMXFuJXXceWoKCI/u0/dkDSdX1wqBtC96cHgn31v61SEuqvu5z4UuDNOzbd/0"
+
+- name: Adding rm user
+  ansible.builtin.user:
+    name: rm
+    shell: /bin/bash
+    groups: sudo
+    append: yes
+    password: "$6$rounds=656000$XuOCXwfIGeFZUvh7$cC05Mm3pNOlgs6rzdVwFMl6XGsMXFuJXXceWoKCI/u0/dkDSdX1wqBtC96cHgn31v61SEuqvu5z4UuDNOzbd/0" 
+
+- name: Adding SSH-key for rm user
+  ansible.posix.authorized_key:
+    user: rm
+    state: present
+    key: "{{ lookup('file', '/home/rm/.ssh/id_ed25519.pub') }}"

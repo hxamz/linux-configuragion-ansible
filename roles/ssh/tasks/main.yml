@@ -1,0 +1,10 @@
+---
+- name: Apply SSH configuration from template
+  ansible.builtin.template:
+    src: templates/debian_sshd_config.j2
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: 0600
+    validate: '/usr/sbin/sshd -t -f %s'
+  notify: Restart SSHD service

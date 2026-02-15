@@ -4,7 +4,7 @@
     name: ans
     shell: /bin/bash
     groups: sudo
-    append: yes
+    append: true
     password: "{{ users_password | password_hash('sha512') }}"
 
 - name: Adding SSH-key for ans user
@@ -18,8 +18,8 @@
     name: rm
     shell: /bin/bash
     groups: sudo
-    append: yes
-    password: "{{ users_password | password_hash('sha512') }}" 
+    append: true
+    password: "{{ users_password | password_hash('sha512') }}"
 
 - name: Adding SSH-key for rm user
   ansible.posix.authorized_key:

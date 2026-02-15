@@ -8,18 +8,21 @@
 - name: Create directory for keys (if not exists)
   ansible.builtin.file:
     path: /etc/apt/keyrings
-    mode: 0755
+    mode: "0755"
     state: directory
 
 - name: Downloading GPG-keys
   ansible.builtin.get_url:
     url: "https://download.docker.com/linux/{{ ansible_facts['distribution'] | lower }}/gpg"
     dest: /etc/apt/keyrings/docker.asc
-    mode: 0644
+    mode: "0644"
 
 - name: Add Docker repository
   ansible.builtin.apt_repository:
-    repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/{{ ansible_facts['distribution'] | lower }} {{ ansible_facts['distribution_release'] }} stable"
+    repo: >
+      deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc]
+      https://download.docker.com/linux/{{ ansible_facts['distribution'] | lower }}
+      {{ ansible_facts['distribution_release'] }} stable
     state: present
 
 - name: Installing Docker packages
@@ -37,4 +40,4 @@
   ansible.builtin.service:
     name: docker
     state: started
-    enabled: yes
+    enabled: true
